@@ -5,13 +5,13 @@
     <div class="register-box">
         <div class="card card-outline card-primary">
             <div class="card-header text-center">
-            <a href="{{url_for('home.index')}}" class="h1 text-normal">Registation</a>
+            <a href="{{url_for('home.index')}}" class="h1 text-normal">Registration</a>
             </div>
             <div class="card-body">
             <p class="login-box-msg">Register a new membership</p>
                 <form method="post">
                     <div class="input-group mb-3">
-                    <input type="text" class="form-control" placeholder="Full name" name="fullname">
+                    <input type="text" class="form-control" placeholder="Full name" name="fullname" required>
                     <div class="input-group-append">
                         <div class="input-group-text">
                         <span class="fas fa-user"></span>
@@ -19,7 +19,7 @@
                     </div>
                     </div>
                     <div class="input-group mb-3">
-                        <input type="email" class="form-control" placeholder="Email" name="email">
+                        <input type="email" class="form-control" placeholder="Email" name="email" required>
                         <div class="input-group-append">
                             <div class="input-group-text">
                             <span class="fas fa-envelope"></span>
@@ -27,7 +27,7 @@
                         </div>
                     </div>
                     <div class="input-group mb-3">
-                        <input type="textbox" class="form-control" placeholder="Mobile Number" name="phone">
+                        <input type="textbox" class="form-control" placeholder="Mobile Number" name="phone" required>
                         <div class="input-group-append">
                             <div class="input-group-text">
                             <span class="fas fa-phone"></span>
@@ -35,7 +35,7 @@
                         </div>
                     </div>
                     <div class="input-group mb-3">
-                    <input type="password" class="form-control" placeholder="Password" name="password">
+                    <input type="password" class="form-control" placeholder="Password" name="password" required>
                     <div class="input-group-append">
                         <div class="input-group-text">
                         <span class="fas fa-lock"></span>
@@ -43,7 +43,7 @@
                     </div>
                     </div>
                     <div class="input-group mb-3">
-                    <input type="password" class="form-control" placeholder="Retype password" name="confirmpassword">
+                    <input type="password" class="form-control" placeholder="Retype password" name="confirmpassword" required>
                     <div class="input-group-append">
                         <div class="input-group-text">
                         <span class="fas fa-lock"></span>
