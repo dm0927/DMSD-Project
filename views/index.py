@@ -97,6 +97,30 @@ def profile():
             flash("Something wen't wrong, please try again later", "danger")    
     return render_template('profile.html')
 
+@home.route('/changepassword', methods=["POST"])
+@login_required
+def changepassword():
+    if request.method == "POST":
+        id = current_user.get_id()
+        oldpassword = request.form.get('oldpassword')
+        newpassword = request.form.get('newpassword')
+        confirmnewpassword = request.form.get('confirmnewpassword')
+        if newpassword == confirmnewpassword:
+            result = DB.selectOne('''SELECT password from CUSTOMER where cust_id = %s''', id)
+            if result.status:
+                if bcrypt.check_password_hash(result.row["password"], oldpassword):
+                    hash = bcrypt.generate_password_hash(newpassword)
+                    result = DB.update("UPDATE CUSTOMER SET password = %s WHERE cust_id = %s", hash, id)
+                    flash("Password updated", "success")
+                    # logout_user()
+                    # return redirect(url_for("home.index"))
+            else:
+                flash("Old Password is Incorrect", "warning")    
+        else:
+            flash("New Password and Confirmn New Password should be same", "warning")
+    return redirect(url_for("home.profile"))
+
+
 @home.route('/logout')
 def logout():
     logout_user()
