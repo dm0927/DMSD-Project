@@ -13,11 +13,11 @@ sys.path.append(CURR_DIR)
 
 def create_app(config_filename=''):
     app = Flask(__name__)
+    app.secret_key = os.environ.get("SECRET_KEY", "missing_secret")
     app.static_folder = 'static'
     with app.app_context():
         from views.index import home
         app.register_blueprint(home)
-
         # an example of making a global function available in jinja templates
         # https://flask-caching.readthedocs.io/en/latest/
         @app.template_global()
