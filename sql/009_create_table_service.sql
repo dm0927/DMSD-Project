@@ -1,7 +1,8 @@
 CREATE TABLE SERVICE( 
             Service_ID int, 
             Vehicle_type varchar(25), 
-            Labor varchar(25), 
+            Service_name varchar(25),
+            Labor float, 
             Price float,
             Skill_ID int,
             primary key(Service_ID,Vehicle_type),
