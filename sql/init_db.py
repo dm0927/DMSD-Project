@@ -42,12 +42,9 @@ for q in queries:
             continue
     try:
         success = DB.query(sql)
-        db_calls += 1
         print(f"Ran {'successfully' if success.status else 'unsuccessfully'}")
     except Exception as e:
         print("An error occured (some may be expected)", e)
 if queries is None:
     queries = []
-print(f"Finished running {len(queries)} files")
-print(f"Used {db_calls} out of 10000 max quota")
 DB.db.close()

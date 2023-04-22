@@ -143,6 +143,7 @@ class DB:
                 database = url.path.strip("/")
                 try:
                     DB.db =  pymysql.connect(host=host, user=user, password=password, database=database, port=int(port))
+                    # DB.db =  pymysql.connect(host=host, user=user, database=database, port=int(port))
                 except Error as e:
                     print("Error while connecting to MySQL", e)
                     raise e
