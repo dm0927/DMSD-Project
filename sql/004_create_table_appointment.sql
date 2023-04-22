@@ -3,7 +3,7 @@ CREATE TABLE APPOINTMENT(
         Date date, 
         Location_ID int,
         Customer_ID int, 
-        Vehicle_ID int,
+        Vehicle_ID varchar(30),
         foreign key (Location_ID) references Location(Location_ID) on update cascade,
         foreign key(Customer_ID) references Customer(Cust_ID) on update cascade, 
         foreign key(Vehicle_ID) references Vehicle(Vehicle_ID) on update cascade,

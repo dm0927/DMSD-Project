@@ -25,8 +25,10 @@ def create_app(config_filename=''):
     with app.app_context():
         from views.index import home
         app.register_blueprint(home)
-
-
+        from views.appointment import appointment
+        app.register_blueprint(appointment)
+        from views.vehicle import vehicle
+        app.register_blueprint(vehicle)
 
         login_manager.init_app(app)
         @login_manager.user_loader

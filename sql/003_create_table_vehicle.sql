@@ -1,5 +1,5 @@
 CREATE TABLE VEHICLE( 
-        Vehicle_ID int primary key auto_increment, 
+        Vehicle_ID VARCHAR(30) primary key, 
         Year int, 
         Type varchar(25),
         Mfg varchar(25), 
