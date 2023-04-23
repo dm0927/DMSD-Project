@@ -1,7 +1,7 @@
 CREATE TABLE SERVICE( 
-            Service_ID int, 
-            Vehicle_type varchar(25), 
-            Service_name varchar(25),
+            Service_ID int auto_increment, 
+            Vehicle_type varchar(100), 
+            Service_name varchar(100),
             Labor float, 
             Price float,
             Skill_ID int,

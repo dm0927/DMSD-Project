@@ -45,6 +45,7 @@ for q in queries:
         print(f"Ran {'successfully' if success.status else 'unsuccessfully'}")
     except Exception as e:
         print("An error occured (some may be expected)", e)
+    
 if queries is None:
     queries = []
 DB.db.close()
