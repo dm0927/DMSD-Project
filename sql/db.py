@@ -99,6 +99,7 @@ class DB:
 
     @staticmethod
     def insertMany(queryString, data):
+        
         return DB.__runQuery(CRUD.CREATE, True, queryString, data)
 
     @staticmethod

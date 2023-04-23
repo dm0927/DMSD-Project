@@ -25,27 +25,41 @@ if tables.rows:
     for t in tables.rows:
         existing_tables.append(list(t.values())[0])
 
+#print(queries)
+
 # execute sql files
 db_calls = 1
 for q in queries:
     sql = q["sql"]
     file = q["file"]
     print(f"Trying file: {file}")
+    
     # block existing tables to save queries (we have a quota of 10k per hour)
     if "CREATE TABLE" in sql.upper():
         t = sql.split("(")[0] \
         .replace("CREATE TABLE","") \
         .replace("\n","") \
         .strip()
+
         if t in existing_tables:
             print(f"Table {t} already exists, blocking query")
             continue
-    try:
-        success = DB.query(sql)
-        print(f"Ran {'successfully' if success.status else 'unsuccessfully'}")
-    except Exception as e:
-        print("An error occured (some may be expected)", e)
+        try:
+            success = DB.query(sql)
+            print(f"Ran {'successfully' if success.status else 'unsuccessfully'}")
+        except Exception as e:
+            print("An error occured (some may be expected)", e)
     
+    if "INSERT INTO" in sql.upper():
+
+        try:
+            success = DB.insertOne(sql)
+            print(f"Ran {'successfully' if success.status else 'unsuccessfully'}")
+            
+        except Exception as e:
+            print("An error occurred (some may be expected)", e)
+
+
 if queries is None:
     queries = []
 DB.db.close()
