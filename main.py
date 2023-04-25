@@ -42,11 +42,6 @@ def create_app(config_filename=''):
             except Exception as e:
                 print(e)
             return None
-        
-        # @app.errorhandler(404)
-        # # inbuilt function which takes error as parameter
-        # def not_found(e):
-        #     return render_template("404.html")
         return app
 
 

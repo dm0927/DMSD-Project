@@ -35,7 +35,7 @@ def book():
                                         where s.service_id in ({','.join(map(str, services))})
                                     """)
                 getPartDetails = DB.selectAll(f"""
-                                        SELECT p.part_id, p.price
+                                        SELECT p.part_id, so.price
                                         from service as s
                                         left join service_offered as so on s.service_id = so.service_id 
                                         left join part as p on p.part_id = so.part_id
@@ -128,9 +128,6 @@ def view():
             appointmentQuery += " and a.Location_ID = %(location)s"
             appointmentCondition['location'] = location
 
-        print(appointmentQuery)
-        print(appointmentCondition)
-
         appointment = DB.selectAll(appointmentQuery, appointmentCondition)
 
         location = DB.selectAll("""
@@ -167,6 +164,7 @@ def appointmentview():
                         left join location as l on l.location_id = a.location_id
                         where Appoint_Id = %s
                     """, appointment_id)
+            print(appointmentResult.row['status'])
             if appointmentResult.status and appointmentResult.row:
                 appointmentResult.row['temp_status'] = appointmentResult.row['status']
                 appointmentResult.row['Date'] = str(appointmentResult.row['Date'])
@@ -192,6 +190,7 @@ def appointmentview():
             print(str(e))
     else:
         return redirect(url_for('appointment.view'))
+    print(appointmentResult.row)
     return render_template("appointmentsingleview.html", appointmentResult=appointmentResult.row, serviceResult=serviceResult.rows, partResult=partResult.rows, cardNumber=getCardNumber.row)
 
 @appointment.route('/payment-process', methods=['POST'])
