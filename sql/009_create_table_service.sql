@@ -3,7 +3,6 @@ CREATE TABLE SERVICE(
             Vehicle_type varchar(100), 
             Service_name varchar(100),
             Labor float, 
-            Price float,
             Skill_ID int,
             primary key(Service_ID,Vehicle_type),
             foreign key (Skill_ID) references Skill(SKill_ID),
