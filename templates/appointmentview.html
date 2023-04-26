@@ -30,11 +30,11 @@
                                 {% endif %}
                             </select>
                         </div>
-                        <!-- <div class="col-md-2">
+                        <div class="col-md-2">
                             <select class="custom-select" name="typeofservice" id="typeofservice">
-                                <option value="">All Service</option>
+                                <option value="" disabled selected hidden>Select A Service Type</option>
                             </select>
-                        </div> -->
+                        </div>
                         <div class="col-md-2">
                             <select class="custom-select" name="location">
                                 <option value="">Select a Location</option>
@@ -105,38 +105,44 @@
     </div>
 </body>
 <script>
+
+    var vehiclelist = "{{request.args.get('vehiclelist')}}"
+    var typeofservice = "{{request.args.get('typeofservice')}}"
+    if(vehiclelist != null) {
+        getData(vehiclelist)
+    }
+
     $(document).ready(function(){
-
-        
-
-        // $(document).on('change', '#vehiclelist', function(){
-        //     $('#typeofservice').html('')
-        //     var vehicleId = $('#vehiclelist').val()
-        //     if(vehicleId != "0") {
-        //         data = {
-        //         'vehicleId' : vehicleId
-        //         }
-        //         $.ajax({
-        //             type: "POST",
-        //             url: 'getVehicleServices',
-        //             data: data,
-        //             dataType: "json",
-        //             success: function(result) {
-        //             if(result.data.length > 0) {
-        //                 $('#vehicletype').val(result.data[0]['type'])
-        //                 option = '<option value="0">Select an Option</option>'
-        //                 for(i = 0; i < result.data.length; i++) {
-        //                 option += `<option value=${result.data[i]['service_id']}>${result.data[i]['service_name']}</option>`
-        //                 }
-        //                 $('#typeofservice').append(option)
-        //             }
-        //             }
-        //         });
-        //     }
-        // })
-
-
-
+        $(document).on('change', '#vehiclelist', function(){
+            $('#typeofservice').html('')
+            var vehicleId = $('#vehiclelist').val()
+            if(vehicleId != "0") {
+                getData(vehicleId)
+            }
+        })
     })
+
+    function getData(vehicleId){
+        data = {
+                'vehicleId' : vehicleId
+                }
+        $.ajax({
+            type: "POST",
+            url: 'getVehicleServices',
+            data: data,
+            dataType: "json",
+            success: function(result) {
+            if(result.data.length > 0) {
+                $('#vehicletype').val(result.data[0]['type'])
+                option = '<option value="" disabled selected hidden>Select an Service Type</option>'
+                for(i = 0; i < result.data.length; i++) {
+                    option += `<option value=${result.data[i]['service_id']} ${typeofservice == result.data[i]['service_id'] ? 'selected' : ''}>${result.data[i]['service_name']}</option>`
+                }
+                $('#typeofservice').append(option)
+            }
+            }
+        });
+    }
+
   </script>
 {% endblock %}
