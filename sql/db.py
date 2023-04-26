@@ -41,7 +41,6 @@ class DB:
                         args = {k: v for d in args for k, v in d.items()}
                     status = cursor.execute(queryString, args)
                 else:
-                    
                     status = cursor.execute(queryString)
             else:
                 if args is not None and len(args) > 0:
@@ -52,7 +51,6 @@ class DB:
                 if not isMany:
                     result = cursor.fetchone()
                     # response = {"status": True if status is None else False, "row": result}
-                    
                     status = True if status >= 0 else False
                     response = DBResponse(status, result)
                 else:
@@ -60,6 +58,7 @@ class DB:
                     print(f"db.py status {status}")
                     status = True if status >= 0 else False
                     response = DBResponse(status, None, result)
+                db.commit()
             else:
                 if op != CRUD.ALTER:
                     db.commit()
@@ -114,6 +113,7 @@ class DB:
 
     @staticmethod
     def selectOne(queryString, *args):
+        print("Over Here")
         return DB.__runQuery(CRUD.READ, False, queryString, args)
     
     @staticmethod

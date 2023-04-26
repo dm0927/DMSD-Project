@@ -25,7 +25,7 @@
                                 <option value="">Select a Vehicle</option>
                                 {% if vehicles and vehicles|length > 0 %}
                                     {% for vehicle in vehicles %}
-                                    <option value="{{vehicle.Vehicle_ID}}" >{{vehicle.Vehicle_ID}}</option>
+                                    <option value="{{vehicle.Vehicle_ID}}" {% if request.args.get('vehiclelist') == vehicle.Vehicle_ID %} selected {% endif %} >{{vehicle.Vehicle_ID}}</option>
                                     {% endfor %}
                                 {% endif %}
                             </select>
@@ -36,22 +36,22 @@
                             </select>
                         </div> -->
                         <div class="col-md-2">
-                            <select class="custom-select" name="location" value="{{request.args.get('location')}}">
+                            <select class="custom-select" name="location">
                                 <option value="">Select a Location</option>
                                 {% if location and location|length > 0 %}
                                     {% for l in location %}
-                                    <option value="{{l.Location_id}}">{{l.Address}}</option>
+                                    <option value="{{l.Address}}" {% if request.args.get("location") == l.Address %} selected {% endif %}>{{l.Address}}</option>
                                     {% endfor %}
                                 {% endif %}
                             </select>
                         </div>
                         <div class="col-md-2">
-                            <select class="custom-select" name="status" value="{{request.args.get('status')}}">
+                            <select class="custom-select" name="status">
                                 <option value="">Select a Status</option>
-                                <option value="Created">Created</option>
-                                <option value="Progress">Progress</option>
-                                <option value="Completed">Completed</option>
-                                <option value="Paid">Paid</option>
+                                <option value="Created" {% if request.args.get("status") == "Created" %} selected {% endif %}>Created</option>
+                                <option value="Progress" {% if request.args.get("status") == "Progress" %} selected {% endif %}>Progress</option>
+                                <option value="Completed" {% if request.args.get("status") == "Completed" %} selected {% endif %}>Completed</option>
+                                <option value="Paid" {% if request.args.get("status") == "Paid" %} selected {% endif %}>Paid</option>
                             </select>
                         </div>
                         <div class="col-md-2">

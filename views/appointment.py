@@ -1,9 +1,7 @@
 from flask import Blueprint, render_template, redirect, url_for, request, flash, jsonify
 from sql.db import DB
-from flask_bcrypt import Bcrypt
 from datetime import date
-from auth.models import User
-from flask_login import login_user, login_required, logout_user, current_user
+from flask_login import login_required, current_user
 
 appointment = Blueprint('appointment', __name__, url_prefix='/appointment')
 
@@ -120,13 +118,18 @@ def view():
 
         vehiclelist = request.args.get('vehiclelist')
         location = request.args.get('location')
+        status = request.args.get('status')
 
         if vehiclelist:
             appointmentQuery += " and a.Vehicle_ID = %(vehiclelist)s"
             appointmentCondition['vehiclelist'] = vehiclelist
         if location:
-            appointmentQuery += " and a.Location_ID = %(location)s"
+            appointmentQuery += " and l.Address = %(location)s"
             appointmentCondition['location'] = location
+        if status:
+            appointmentQuery += " and a.status = %(status)s"
+            appointmentCondition['status'] = status
+
 
         appointment = DB.selectAll(appointmentQuery, appointmentCondition)
 

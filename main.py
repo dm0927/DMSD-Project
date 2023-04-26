@@ -3,6 +3,7 @@ import sys
 from flask import Flask, render_template
 from dotenv import load_dotenv
 import flask_login
+from flask_caching import Cache
 
 load_dotenv()
 
@@ -12,11 +13,12 @@ load_dotenv()
 CURR_DIR = os.path.dirname(os.path.abspath(__file__))
 sys.path.append(CURR_DIR)
 
+sys.dont_write_bytecode = True
+
 login_manager = flask_login.LoginManager()
 login_manager.login_view = "home.index"
 login_manager.login_message = "Login to access"
 login_manager.login_message_category = "warning"
-
 
 def create_app(config_filename=''):
     app = Flask(__name__)
@@ -31,6 +33,7 @@ def create_app(config_filename=''):
         app.register_blueprint(vehicle)
 
         login_manager.init_app(app)
+
         @login_manager.user_loader
         def load_user(id):
             from sql.db import DB
@@ -48,4 +51,4 @@ def create_app(config_filename=''):
 app = create_app()
 
 if __name__ == "__main__":
-    app.run(debug=True, host='0.0.0.0', port=int(os.environ.get('PORT', 8000)))
+    app.run(debug=True, port=8000)

@@ -1,9 +1,6 @@
 from flask import Blueprint, render_template, redirect, url_for, request, flash
 from sql.db import DB
-from flask_bcrypt import Bcrypt
-
-from auth.models import User
-from flask_login import login_user, login_required, logout_user, current_user
+from flask_login import login_required, current_user
 
 vehicle = Blueprint('vehicle', __name__, url_prefix='/vehicle')
 
