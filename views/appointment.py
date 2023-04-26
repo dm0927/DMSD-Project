@@ -107,9 +107,10 @@ def view():
     appointment = []
     appointmentCondition = {}
     appointmentQuery = """
-                            SELECT a.Appoint_Id, a.Date, l.address, a.status
+                            SELECT Distinct(a.Appoint_Id), a.Date, l.address, a.status
                             from Appointment as a
                             left join location as l on l.location_id = a.location_id
+                            left join bill as b on b.appoint_id = a.appoint_id
                             where 1 = 1
                         """
     try: 
@@ -117,19 +118,22 @@ def view():
         appointmentCondition['cust_id'] = customer_id
 
         vehiclelist = request.args.get('vehiclelist')
+        typeofservice = request.args.get('typeofservice')
         location = request.args.get('location')
         status = request.args.get('status')
 
         if vehiclelist:
             appointmentQuery += " and a.Vehicle_ID = %(vehiclelist)s"
             appointmentCondition['vehiclelist'] = vehiclelist
+        if typeofservice:
+            appointmentQuery += " and b.service_id = %(typeofservice)s"
+            appointmentCondition['typeofservice'] = typeofservice
         if location:
             appointmentQuery += " and l.Address = %(location)s"
             appointmentCondition['location'] = location
         if status:
             appointmentQuery += " and a.status = %(status)s"
             appointmentCondition['status'] = status
-
 
         appointment = DB.selectAll(appointmentQuery, appointmentCondition)
         appointment = appointment.rows
@@ -146,7 +150,7 @@ def view():
                 """, customer_id)
         
     except Exception as e:
-        pass
+        print(str(e))
     return render_template("appointmentview.html", appointment=appointment, vehicles=vehicle.rows, location=location.rows)
 
 @appointment.route('/appointment-view')
