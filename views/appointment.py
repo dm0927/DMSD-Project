@@ -132,6 +132,7 @@ def view():
 
 
         appointment = DB.selectAll(appointmentQuery, appointmentCondition)
+        appointment = appointment.rows
 
         location = DB.selectAll("""
                     SELECT Location_id, Address
@@ -146,7 +147,7 @@ def view():
         
     except Exception as e:
         pass
-    return render_template("appointmentview.html", appointment=appointment.rows, vehicles=vehicle.rows, location=location.rows)
+    return render_template("appointmentview.html", appointment=appointment, vehicles=vehicle.rows, location=location.rows)
 
 @appointment.route('/appointment-view')
 @login_required
