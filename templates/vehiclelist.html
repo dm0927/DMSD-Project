@@ -35,7 +35,6 @@
                                             <th>Model</th>
                                             <th>Color</th>
                                             <th>Edit</th>
-                                            <th>Delete</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -49,7 +48,6 @@
                                                     <td>{{row.Model}}</td>
                                                     <td>{{row.Color}}</td>
                                                     <td><a href="{{url_for('vehicle.edit')}}?id={{row.Vehicle_ID}}">Edit</a></td>
-                                                    <td><a href="">Delete</a></td>
                                                 </tr>
                                             {% endfor %}
                                         {% else %}

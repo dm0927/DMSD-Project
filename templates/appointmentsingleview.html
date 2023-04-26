@@ -1,0 +1,123 @@
+{% extends "innerlayout.html" %}
+{% block title %}Vehicle{% endblock %}
+{% block content %}
+<body class="hold-transition layout-top-nav">
+  <div class="wrapper">
+    <div class="content-wrapper">
+      <!-- Content Header (Page header) -->
+      <section class="content-header">
+        <div class="container-fluid">
+          <div class="row mb-2">
+            <div class="col-sm-6">
+              <h1>Appointment Details</h1>
+            </div>
+          </div>
+        </div><!-- /.container-fluid -->
+      </section>
+  
+      <!-- Main content -->
+        <section class="content">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card-body table-responsive p-0">
+                            <table class="table table-bordered text-nowrap" style="background-color:white;">
+                                <tbody>
+                                    <tr>
+                                        <td>Appointment Id : <b>{{appointmentResult['Appoint_Id']}}</b></td>
+                                        <td>Appointment Date: <b>{{appointmentResult['Date']}}</b></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Appointment DropOff : <b>{{appointmentResult['address']}}</b></td>
+                                        <td>Appointment Status: <b>{{appointmentResult['status']}}</b></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="col-md-12 mt-2">
+                        <div class="card-body table-responsive p-0">
+                            <table class="table table-bordered text-nowrap" style="background-color:white;">
+                                <tbody>
+                                    <tr>
+                                        <td>Grand Total : <b>{{serviceResult[0]['grand_total']}}</b></td>
+                                        {% if appointmentResult['temp_status'] == "Completed" %}
+                                            <td><input type="button" value="Pay Now" class="btn btn-default"  data-toggle="modal" data-target="#exampleModal"></td>
+                                        {% endif %}    
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="col-md-12 mt-2">
+                        <div class="card-body table-responsive p-0">
+                            <table class="table table-bordered text-nowrap" style="background-color:white;">
+                                <thead>
+                                    <tr>
+                                        <th>Service Name</th>
+                                        <th>Service Price</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for s in serviceResult %}
+                                        <tr>
+                                            <td>{{ s['service_name'] }}</td>
+                                            <td>{{ s['price'] }}</td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="col-md-12 mt-2">
+                        <div class="card-body table-responsive p-0">
+                            <table class="table table-bordered text-nowrap" style="background-color:white;">
+                                <thead>
+                                    <tr>
+                                        <th>Part Name</th>
+                                        <th>Part Price</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for s in partResult %}
+                                        <tr>
+                                            <td>{{ s['name'] }}</td>
+                                            <td>{{ s['Price'] }}</td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+      <!-- /.content -->
+    </div>
+</body>
+{% if appointmentResult['temp_status'] == "Completed" %}
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Payment Details</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <form method="POST" action="{{url_for('appointment.paymentprocess')}}">
+            <div class="modal-body">
+                <input type="hidden" name="appointment_id" value="{{appointmentResult['Appoint_Id']}}">
+                <input type="textbox" class="form-control" name="creditcard" placeholder="Card Number" value="{{cardNumber['Credit_Card'] if cardNumber['Credit_Card'] else ''}}">
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary">Pay</button>
+              </div>
+        </form>
+      </div>
+    </div>
+  </div>
+{% endif %}   
+{% endblock %}

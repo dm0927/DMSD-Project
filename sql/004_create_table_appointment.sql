@@ -4,6 +4,7 @@ CREATE TABLE APPOINTMENT(
         Location_ID int,
         Customer_ID int, 
         Vehicle_ID varchar(30),
+        status ENUM('Created', 'Progress', 'Completed','Paid') NOT NULL DEFAULT 'Created',
         foreign key (Location_ID) references Location(Location_ID) on update cascade,
         foreign key(Customer_ID) references Customer(Cust_ID) on update cascade, 
         foreign key(Vehicle_ID) references Vehicle(Vehicle_ID) on update cascade,

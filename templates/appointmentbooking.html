@@ -34,7 +34,7 @@
                           <label for="inputName" class="col-sm-2 col-form-label">Appointment Date</label>
                             <div class="col-sm-10">
                               <div class="input-group date" id="reservationdate" data-target-input="nearest">
-                                <input type="text" class="form-control datetimepicker-input" data-target="#reservationdate" name="bookingdate">
+                                <input type="text" class="form-control datetimepicker-input" data-target="#reservationdate" name="bookingdate" required>
                                 <div class="input-group-append" data-target="#reservationdate" data-toggle="datetimepicker">
                                 <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                               </div>
@@ -44,7 +44,7 @@
                         <div class="form-group row">
                           <label for="inputEmail" class="col-sm-2 col-form-label">Location</label>
                           <div class="col-sm-10">
-                            <select class="custom-select" name="location">
+                            <select class="custom-select" name="location" required>
                               <option value="0">Select an Option</option>
                               {% if location and location|length > 0 %}
                                 {% for l in location %}
@@ -57,6 +57,7 @@
                         <div class="form-group row">
                           <label for="inputEmail" class="col-sm-2 col-form-label">Vechile Details</label>
                           <div class="col-sm-10">
+                            <input type="hidden" name="vehicletype" id="vehicletype" required>
                             <select class="custom-select" name="vehicle" id="vehicle">
                               <option value="0">Select an Option</option>
                               {% if vehicles and vehicles|length > 0 %}
@@ -70,7 +71,7 @@
                         <div class="form-group row">
                           <label for="inputEmail" class="col-sm-2 col-form-label">Service Type</label>
                           <div class="col-sm-10">
-                            <select class="select2" style="width: 100%;" id="services" name="services[]" multiple="multiple">
+                            <select class="select2" style="width: 100%;" id="services" name="services[]" multiple="multiple" required>
                             </select>
                           </div>
                         </div>
@@ -112,6 +113,7 @@
             dataType: "json",
             success: function(result) {
               if(result.data.length > 0) {
+                $('#vehicletype').val(result.data[0]['type'])
                 option = '<option value="0">Select an Option</option>'
                 for(i = 0; i < result.data.length; i++) {
                   option += `<option value=${result.data[i]['service_id']}>${result.data[i]['service_name']}</option>`
