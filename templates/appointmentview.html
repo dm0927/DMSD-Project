@@ -14,15 +14,57 @@
             </div>
             </div><!-- /.container-fluid -->
         </section>
-    
+        
         <!-- Main content -->
         <section class="content">
             <div class="container-fluid">
+                <form method="GET">
+                    <div class="col-md-12 row">
+                        <div class="col-md-2">
+                            <select class="custom-select" name="vehiclelist" id="vehiclelist">
+                                <option value="">Select a Vehicle</option>
+                                {% if vehicles and vehicles|length > 0 %}
+                                    {% for vehicle in vehicles %}
+                                    <option value="{{vehicle.Vehicle_ID}}" {% if request.args.get('vehiclelist') == vehicle.Vehicle_ID %} selected {% endif %} >{{vehicle.Vehicle_ID}}</option>
+                                    {% endfor %}
+                                {% endif %}
+                            </select>
+                        </div>
+                        <!-- <div class="col-md-2">
+                            <select class="custom-select" name="typeofservice" id="typeofservice">
+                                <option value="">All Service</option>
+                            </select>
+                        </div> -->
+                        <div class="col-md-2">
+                            <select class="custom-select" name="location">
+                                <option value="">Select a Location</option>
+                                {% if location and location|length > 0 %}
+                                    {% for l in location %}
+                                    <option value="{{l.Address}}" {% if request.args.get("location") == l.Address %} selected {% endif %}>{{l.Address}}</option>
+                                    {% endfor %}
+                                {% endif %}
+                            </select>
+                        </div>
+                        <div class="col-md-2">
+                            <select class="custom-select" name="status">
+                                <option value="">Select a Status</option>
+                                <option value="Created" {% if request.args.get("status") == "Created" %} selected {% endif %}>Created</option>
+                                <option value="Progress" {% if request.args.get("status") == "Progress" %} selected {% endif %}>Progress</option>
+                                <option value="Completed" {% if request.args.get("status") == "Completed" %} selected {% endif %}>Completed</option>
+                                <option value="Paid" {% if request.args.get("status") == "Paid" %} selected {% endif %}>Paid</option>
+                            </select>
+                        </div>
+                        <div class="col-md-2">
+                            <input type="submit" class="btn btn-danger" value="Filter">
+                            <a href="?" class="btn btn-secondary" value="Reset">Reset</a>
+                        </div>
+                    </div>
+                </form>
                 <div class="row">
-                    <div class="col-md-12">
+                    <div class="col-md-12 mt-2">
                         <div class="card">
                             <div class="card-header">
-                                <h3 class="card-title">Vehicle Listing</h3>
+                                <h3 class="card-title">View Appointment List</h3>
                             </div>
                             <div class="card-body table-responsive p-0">
                                 <table class="table table-hover text-nowrap">
@@ -30,8 +72,9 @@
                                         <tr>
                                             <th>Appointment Id</th>
                                             <th>Appointment Date</th>
-                                            <th>Vehicle Number</th>
+                                            <th>Location(Drop Off)</th>
                                             <th>Appointment Status</th>
+                                            <th>Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -40,8 +83,9 @@
                                                 <tr>
                                                     <td>{{row.Appoint_Id}}</td>
                                                     <td>{{row.Date}}</td>
-                                                    <td>{{row.Date}}</td>
-                                                    <td>{{row.Date}}</td>
+                                                    <td>{{row.address}}</td>
+                                                    <td>{{row.status}}</td>
+                                                    <td><a href="{{url_for('appointment.appointmentview')}}?id={{row.Appoint_Id}}">View</a></td>
                                                 </tr>
                                             {% endfor %}
                                         {% else %}
@@ -60,4 +104,39 @@
         <!-- /.content -->
     </div>
 </body>
+<script>
+    $(document).ready(function(){
+
+        
+
+        // $(document).on('change', '#vehiclelist', function(){
+        //     $('#typeofservice').html('')
+        //     var vehicleId = $('#vehiclelist').val()
+        //     if(vehicleId != "0") {
+        //         data = {
+        //         'vehicleId' : vehicleId
+        //         }
+        //         $.ajax({
+        //             type: "POST",
+        //             url: 'getVehicleServices',
+        //             data: data,
+        //             dataType: "json",
+        //             success: function(result) {
+        //             if(result.data.length > 0) {
+        //                 $('#vehicletype').val(result.data[0]['type'])
+        //                 option = '<option value="0">Select an Option</option>'
+        //                 for(i = 0; i < result.data.length; i++) {
+        //                 option += `<option value=${result.data[i]['service_id']}>${result.data[i]['service_name']}</option>`
+        //                 }
+        //                 $('#typeofservice').append(option)
+        //             }
+        //             }
+        //         });
+        //     }
+        // })
+
+
+
+    })
+  </script>
 {% endblock %}
